@@ -8,24 +8,19 @@
 #include "floop.h"
 #include "start.h"
 #include "drum.h"
+#include "ball.h"
 #include "timer.h"
 
 #define BUF_THRESHOLD 96
 #define AUDIO_BASE  0xFF203040
 
 /*AUDIO VARIABLES*/
-	
-int floop_buffer[2152]= floop;
-;
+
 int floop_buf_size = 1076*2;
 
-int drum_roll_buffer[41025] = drum;
-;
 
 int drum_roll_buf_size = 20513*2;
 
-int timer_buffer[39492] = timer;
-;
 int timer_buf_size = 19764 * 2;
 
 /*GLOBAL PIXEL BUFFER VARIABLE*/
@@ -119,7 +114,7 @@ int main(void)
 	int n = random_array[rand()%3];
 
 	//sound for start of game
-	sound(floop_buffer,floop_buf_size);
+	sound(floop,floop_buf_size);
 	
     while (1)
 
@@ -482,21 +477,21 @@ void pushbutton_ISR(void) {
     if (press & 0x1 && step <= 0) { //key0 and game has started
 
         step = 1; //ball bouncing
-		sound(timer_buffer,timer_buf_size);
+		sound(timer,timer_buf_size);
 
     }
 
     else if (press & 0x2) { //key1
 	
 		step = -1; //to reset
-		sound(floop_buffer,floop_buf_size);
+		sound(floop,floop_buf_size);
 		
 
 
     }
  	else if (press & 0x1 && step == 1) { //key 0 and ball was bouncing
 		step = 2; //stop ball bouncing, move onto displaying answer
-		sound(drum_roll_buffer,drum_roll_buf_size);
+		sound(drum,drum_roll_buf_size);
 	}
 					
     return;
